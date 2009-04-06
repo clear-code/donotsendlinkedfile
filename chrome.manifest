@@ -1,0 +1,7 @@
+content	donotsend	jar:chrome/donotsend.jar!/content/donotsend/
+
+overlay	chrome://messenger/content/messengercompose/messengercompose.xul	chrome://donotsend/content/globalOverlay.xul
+overlay	chrome://messenger/content/messengercompose/mailComposeEditorOverlay.xul	chrome://donotsend/content/mailComposeEditorOverlay.xul
+
+locale	donotsend	en-US	jar:chrome/donotsend.jar!/locale/en-US/donotsend/
+locale	donotsend	ja	jar:chrome/donotsend.jar!/locale/ja/donotsend/
