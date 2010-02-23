@@ -35,3 +35,4 @@
 
 pref("extensions.donotsend@clear-code.com.name",        "chrome://donotsend/locale/donotsend.properties");
 pref("extensions.donotsend@clear-code.com.description", "chrome://donotsend/locale/donotsend.properties");
+// pref("mail.compose.dont_attach_source_of_local_network_links", true);
