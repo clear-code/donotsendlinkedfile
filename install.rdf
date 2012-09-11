@@ -6,7 +6,7 @@
                    em:id="donotsend@clear-code.com"
                    em:name="Don't Send Linked Files"
                    em:version="0.2"
-                   em:description="Make URIs in HTML messages not URI-encoded automatically when local files are dropped to the message composer."
+                   em:description="Prevents sending of linked files if they are file: URLs."
                    em:creator="ClearCode Inc."
                    em:homepageURL="http://www.clear-code.com/">
 <!--
