@@ -14,7 +14,7 @@
  * The Original Code is "Don't Send Linked Files".
  *
  * The Initial Developer of the Original Code is ClearCode Inc.
- * Portions created by the Initial Developer are Copyright (C) 2008
+ * Portions created by the Initial Developer are Copyright (C) 2008-2013
  * the Initial Developer. All Rights Reserved.
  *
  * Contributor(s): ClearCode Inc. <info@clear-code.com>
@@ -42,9 +42,8 @@ window.addEventListener('DOMContentLoaded', function() {
 		eval('window.ComposeStartup = '+
 			window.ComposeStartup.toSource().replace(
 				/(\}\)?)$/,
-				<><![CDATA[
-					window.setTimeout('window.ComposerAttachableObjectInsertionObserver.init();', 0);
-				$1]]></>
+				'window.setTimeout(\'window.ComposerAttachableObjectInsertionObserver.init();\', 0);' +
+				'$1'
 			)
 		);
 	}
@@ -53,9 +52,7 @@ window.addEventListener('DOMContentLoaded', function() {
 		eval('window.MsgComposeCloseWindow = '+
 			window.MsgComposeCloseWindow.toSource().replace(
 				'{',
-				<><![CDATA[$&
-					window.ComposerAttachableObjectInsertionObserver.destroy();
-				]]></>
+				'{ window.ComposerAttachableObjectInsertionObserver.destroy();'
 			)
 		);
 	}
