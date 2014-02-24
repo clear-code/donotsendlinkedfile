@@ -1,0 +1,1 @@
+In a composition window for an HTML mail, Thunderbird asks you to attach a local file to the mail or not, when you try to embed a link to a local file. This add-on prevents attaching of local confidential files, from being leaked accidentally.
