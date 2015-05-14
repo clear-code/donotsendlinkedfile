@@ -66,21 +66,64 @@ window.addEventListener('DOMContentLoaded', function() {
 		{
 			return this.frame.getAttribute('editortype') == 'htmlmail';
 		},
-		initialized : false,
+	        initialized : false,
+                observer: null,
 
 		init : function()
 		{
 			if (!this.isHTMLMode || this.initialized) return;
-			this.frame.contentDocument.addEventListener('DOMNodeInserted', this, false);
-			this.frame.contentDocument.addEventListener('DOMAttrModified', this, false);
+
+			var target = this.frame.contentDocument;
+			this.observer = new MutationObserver(this.onObserved.bind(this));
+			var config =
+				{ attributes: true, childList: true, subtree: true};
+			this.observer.observe(target, config);
 			this.initialized = true;
 		},
-		destroy : function()
+
+		onObserved: function(aMutations) {
+			aMutations.forEach(function(aMutation) {
+				switch (aMutation.type)
+				{
+					case 'attributes':
+						if (aMutation.attributeName != this.kDO_NOT_SEND) return;
+
+						if (aMutation.target.getAttribute(this.kDO_NOT_SEND) == 'true') return;
+
+						this.ensureDoNotSend(aMutation.target);
+						break;
+					case 'childList':
+						var addedNodes = aMutation.addedNodes;
+						if (addedNodes == null || addedNodes.length == 0) return;
+
+						Array.forEach(addedNodes, this.ensureDoNotSend, this);
+						break;
+				}
+			}, this);
+		},
+
+		ensureDoNotSend: function (aNode) {
+			if (aNode.nodeType != Node.ELEMENT_NODE) return;
+			switch (aNode.localName.toLowerCase())
+			{
+				case 'a':
+					this.checkLinkedFile(aNode, aNode.href);
+					return;
+				case 'img':
+					this.checkLinkedFile(aNode, aNode.src);
+					return;
+				default:
+					var targets = aNode.querySelectorAll("a, img");
+					Array.forEach(targets, this.ensureDoNotSend, this);
+					break;
+			}
+		},
+
+		Destroy : function()
 		{
 			if (!this.isHTMLMode || !this.initialized) return;
-			this.frame.contentDocument.removeEventListener('DOMNodeInserted', this, false);
-			this.frame.contentDocument.removeEventListener('DOMAttrModified', this, false);
-			this.initialized = false;
+		        this.initialized = false;
+			this.observer.disconnect();
 		},
 
 		kDO_NOT_SEND : 'moz-do-not-send',
@@ -89,45 +132,6 @@ window.addEventListener('DOMContentLoaded', function() {
 		{
 			if (!/^file:\/\//.test(aURL)) return;
 			aNode.setAttribute(this.kDO_NOT_SEND, true);
-		},
-
-		handleEvent : function(aEvent)
-		{
-			var node;
-
-			switch (aEvent.type)
-			{
-				case 'DOMAttrModified':
-					if (
-						aEvent.attrName == this.kDO_NOT_SEND &&
-						(
-							aEvent.attrChange == aEvent.REMOVAL ||
-							aEvent.newValue != 'true'
-						)
-						) {
-						dump('UPDATE\n');
-						node = aEvent.target;
-					}
-					break;
-
-				case 'DOMNodeInserted':
-					node = aEvent.target;
-					break;
-			}
-
-			if (!node) return;
-
-			if (node.nodeType != Node.ELEMENT_NODE) return;
-			switch (node.localName.toLowerCase())
-			{
-				case 'a':
-					this.checkLinkedFile(node, node.href);
-					return;
-
-				case 'img':
-					this.checkLinkedFile(node, node.src);
-					return;
-			}
 		}
 	};
 
