@@ -5,7 +5,7 @@
   <RDF:Description RDF:about="urn:mozilla:install-manifest"
                    em:id="donotsend@clear-code.com"
                    em:name="Don't Send Linked Files"
-                   em:version="0.3"
+                   em:version="0.4"
                    em:type="2"
                    em:description="Prevents sending of linked files if they are file: URLs."
                    em:creator="ClearCode Inc."
