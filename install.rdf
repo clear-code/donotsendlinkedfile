@@ -6,6 +6,7 @@
                    em:id="donotsend@clear-code.com"
                    em:name="Don't Send Linked Files"
                    em:version="0.3"
+                   em:type="2"
                    em:description="Prevents sending of linked files if they are file: URLs."
                    em:creator="ClearCode Inc."
                    em:homepageURL="http://www.clear-code.com/">
