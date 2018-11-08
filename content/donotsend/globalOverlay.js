@@ -119,7 +119,7 @@ window.addEventListener('DOMContentLoaded', function() {
 			}
 		},
 
-		Destroy : function()
+		destroy : function()
 		{
 			if (!this.isHTMLMode || !this.initialized) return;
 		        this.initialized = false;
